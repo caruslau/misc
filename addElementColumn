@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# add element column (77-78) to PDB file exported from VMD
+# takes element from atom name in 3rd column (13-16)
+
+for f in x*; do
+    echo $f
+    awk '{ print $3 }' $f |cut -c-1 > "$f"_element
+    cut -c-76 $f > "$f"_76
+    paste -d " " "$f"_76 "$f"_element > "$f"_fixed.pdb
+    rm "$f"_element
+    rm "$f"_76
+done
+
+echo DONE
